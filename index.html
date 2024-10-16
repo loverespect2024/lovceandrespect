@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>你是哪一個精靈</title>
+    <title>角色隨機顯示</title>
     <style>
         body {
             display: flex;
@@ -36,11 +36,11 @@
 
 <script>
     const images = [
-        'url("https://photos.fife.usercontent.google.com/pw/AP1GczPm43RIT7mvJOPR8Qod-Z3LpUSMjg-hGmLi2IAc04PxVKbxGzATZKM=w945-h945-s-no-gm?authuser=2")',
-        'url("https://photos.fife.usercontent.google.com/pw/AP1GczNd9VnF_aUxxdwKkPlkXOr4fG-c9IS7KAYQpvY3GwlrwDbMEaS2Vlw=w945-h945-s-no-gm?authuser=2")',
-        'url("https://photos.fife.usercontent.google.com/pw/AP1GczOOONKQV4rfYDGCCKck11rjBbCQw8--LCDnfBdMQu4j_aC136cymOs=w945-h945-s-no-gm?authuser=2")',
-        'url("https://photos.fife.usercontent.google.com/pw/AP1GczMQRa_f0JUw_VsrMOrnMQtprUmk8WqOnTd_hL8XWc9YNqceJr7Nucw=w945-h945-s-no-gm?authuser=2")',
-        'url("https://photos.fife.usercontent.google.com/pw/AP1GczNojdNKfJ0k6H4_9p2tE3GCKYEiGfn236IOjKNOgzr1AzS4uKJi9XA=w560-h611-s-no-gm?authuser=2")'
+        'url("image1.jpg")',
+        'url("image2.jpg")',
+        'url("image3.jpg")',
+        'url("image4.jpg")',
+        'url("image5.jpg")'
     ];
 
     document.getElementById('randomButton').addEventListener('click', function() {
@@ -50,12 +50,12 @@
             const randomIndex = Math.floor(Math.random() * images.length);
             display.style.backgroundImage = images[randomIndex];
             counter++;
-            if (counter > 10) { // 控制閃爍次數
+            if (counter > 10) {
                 clearInterval(flickerInterval);
                 const finalIndex = Math.floor(Math.random() * images.length);
                 display.style.backgroundImage = images[finalIndex];
             }
-        }, 100); // 閃爍速度
+        }, 100);
     });
 </script>
 
