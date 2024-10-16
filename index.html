@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>角色隨機顯示</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        #display {
+            width: 300px;
+            height: 300px;
+            margin-bottom: 20px;
+            background-size: cover;
+            background-position: center;
+            border: 2px solid #ccc;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div id="display"></div>
+<button id="randomButton">隨機顯示角色</button>
+
+<script>
+    const images = [
+        'url("image1.jpg")',
+        'url("image2.jpg")',
+        'url("image3.jpg")',
+        'url("image4.jpg")',
+        'url("image5.jpg")'
+    ];
+
+    document.getElementById('randomButton').addEventListener('click', function() {
+        let display = document.getElementById('display');
+        let counter = 0;
+        const flickerInterval = setInterval(() => {
+            const randomIndex = Math.floor(Math.random() * images.length);
+            display.style.backgroundImage = images[randomIndex];
+            counter++;
+            if (counter > 10) { // 控制閃爍次數
+                clearInterval(flickerInterval);
+                const finalIndex = Math.floor(Math.random() * images.length);
+                display.style.backgroundImage = images[finalIndex];
+            }
+        }, 100); // 閃爍速度
+    });
+</script>
+
+</body>
+</html>
