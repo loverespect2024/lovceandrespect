@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>角色隨機顯示</title>
+    <title>老虎機角色選擇</title>
     <style>
         body {
             display: flex;
@@ -11,60 +11,70 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
-            margin: 0;
             background-color: #f0f0f0;
+            margin: 0;
         }
-        #display {
-            width: 300px;
-            height: 300px;
+        #slot-machine {
+            display: flex;
+            justify-content: center;
             margin-bottom: 20px;
-            background-size: cover;
-            background-position: center;
-            border: 2px solid #ccc;
-            transition: background-image 0.5s ease-in-out, opacity 0.5s ease-in-out;
-            opacity: 0;
         }
-        button {
+        .slot {
+            width: 100px;
+            height: 100px;
+            margin: 0 10px;
+            background-color: white;
+            border: 2px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        #spin-button {
             padding: 10px 20px;
-            font-size: 16px;
+            font-size: 18px;
             cursor: pointer;
         }
     </style>
 </head>
 <body>
+    <div id="slot-machine">
+        <div class="slot" id="slot1">?</div>
+        <div class="slot" id="slot2">?</div>
+        <div class="slot" id="slot3">?</div>
+    </div>
+    <button id="spin-button">開始</button>
 
-<div id="display"></div>
-<button id="randomButton">隨機顯示角色</button>
+    <script>
+        const characters = [
+            { name: "角色1", image: "character1.jpg", url: "https://jcloverespect.bgca.org.hk/zh-hant/about_us/friends/" },
+            { name: "角色2", image: "character2.jpg", url: "https://jcloverespect.bgca.org.hk/zh-hant/about_us/friends/" },
+            { name: "角色3", image: "character3.jpg", url: "https://jcloverespect.bgca.org.hk/zh-hant/about_us/friends/" },
+            { name: "角色4", image: "character4.jpg", url: "https://jcloverespect.bgca.org.hk/zh-hant/about_us/friends/" },
+            { name: "角色5", image: "character5.jpg", url: "https://jcloverespect.bgca.org.hk/zh-hant/about_us/friends/" }
+        ];
 
-<script>
-    const images = [
-        { url: 'url("https://jcloverespect.bgca.org.hk/upload/friends/1/image/img-friends-01.png")', link: 'https://jcloverespect.bgca.org.hk/zh-hant/about_us/friends/' },
-        { url: 'url("https://jcloverespect.bgca.org.hk/upload/friends/2/image/img-friends-02.png")', link: 'https://jcloverespect.bgca.org.hk/zh-hant/about_us/friends/' },
-        { url: 'url("https://jcloverespect.bgca.org.hk/upload/friends/3/image/img-friends-03.png")', link: 'https://jcloverespect.bgca.org.hk/zh-hant/about_us/friends/' },
-        { url: 'url("https://jcloverespect.bgca.org.hk/upload/friends/4/image/img-friends-04.png")', link: 'https://jcloverespect.bgca.org.hk/zh-hant/about_us/friends/' },
-        { url: 'url("https://jcloverespect.bgca.org.hk/upload/friends/5/image/img-friends-05.png")', link: 'https://jcloverespect.bgca.org.hk/zh-hant/about_us/friends/' }
-    ];
+        const slots = [
+            document.getElementById('slot1'),
+            document.getElementById('slot2'),
+            document.getElementById('slot3')
+        ];
 
-    document.getElementById('randomButton').addEventListener('click', function() {
-        let display = document.getElementById('display');
-        let counter = 0;
-        display.style.opacity = 0;
-        const flickerInterval = setInterval(() => {
-            const randomIndex = Math.floor(Math.random() * images.length);
-            display.style.backgroundImage = images[randomIndex].url;
-            counter++;
-            if (counter > 10) {
-                clearInterval(flickerInterval);
-                const finalIndex = Math.floor(Math.random() * images.length);
-                display.style.backgroundImage = images[finalIndex].url;
-                display.style.opacity = 1;
-                setTimeout(() => {
-                    window.location.href = images[finalIndex].link;
-                }, 1000); // 1秒後跳轉
-            }
-        }, 100);
-    });
-</script>
+        document.getElementById('spin-button').onclick = function () {
+            spinSlots();
+        };
 
+        function spinSlots() {
+            slots.forEach(slot => {
+                let randomIndex = Math.floor(Math.random() * characters.length);
+                slot.textContent = characters[randomIndex].name;
+            });
+
+            setTimeout(() => {
+                let winningIndex = Math.floor(Math.random() * characters.length);
+                window.location.href = characters[winningIndex].url;
+            }, 2000);
+        }
+    </script>
 </body>
 </html>
