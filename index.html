@@ -21,6 +21,8 @@
             background-size: cover;
             background-position: center;
             border: 2px solid #ccc;
+            transition: background-image 0.5s ease-in-out, opacity 0.5s ease-in-out;
+            opacity: 0;
         }
         button {
             padding: 10px 20px;
@@ -36,24 +38,29 @@
 
 <script>
     const images = [
-        'url("https://ibb.co/WcD94Cg")',
-        'url("https://ibb.co/WcD94Cg")',
-        'url("https://ibb.co/WcD94Cg")',
-        'url("https://ibb.co/WcD94Cg")',
-        'url("https://ibb.co/WcD94Cg")'
+        { url: 'url("https://jcloverespect.bgca.org.hk/upload/friends/1/image/img-friends-01.png")', link: 'https://example.com/page1' },
+        { url: 'url("https://example.com/image2.jpg")', link: 'https://example.com/page2' },
+        { url: 'url("https://example.com/image3.jpg")', link: 'https://example.com/page3' },
+        { url: 'url("https://example.com/image4.jpg")', link: 'https://example.com/page4' },
+        { url: 'url("https://example.com/image5.jpg")', link: 'https://example.com/page5' }
     ];
 
     document.getElementById('randomButton').addEventListener('click', function() {
         let display = document.getElementById('display');
         let counter = 0;
+        display.style.opacity = 0;
         const flickerInterval = setInterval(() => {
             const randomIndex = Math.floor(Math.random() * images.length);
-            display.style.backgroundImage = images[randomIndex];
+            display.style.backgroundImage = images[randomIndex].url;
             counter++;
             if (counter > 10) {
                 clearInterval(flickerInterval);
                 const finalIndex = Math.floor(Math.random() * images.length);
-                display.style.backgroundImage = images[finalIndex];
+                display.style.backgroundImage = images[finalIndex].url;
+                display.style.opacity = 1;
+                setTimeout(() => {
+                    window.location.href = images[finalIndex].link;
+                }, 1000); // 1秒後跳轉
             }
         }, 100);
     });
