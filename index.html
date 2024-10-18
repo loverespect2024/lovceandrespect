@@ -47,11 +47,11 @@
 
     <script>
         const characters = [
-            { name: "角色1", image: "character1.jpg", url: "https://loverespect2024.github.io/loverespect2024.githhub.io-loverespsect/intro1.html" },
-            { name: "角色2", image: "character2.jpg", url: "https://loverespect2024.github.io/loverespect2024.githhub.io-loverespsect/intro2.html" },
-            { name: "角色3", image: "character3.jpg", url: "https://loverespect2024.github.io/loverespect2024.githhub.io-loverespsect/intro3.html" },
-            { name: "角色4", image: "character4.jpg", url: "https://loverespect2024.github.io/loverespect2024.githhub.io-loverespsect/intro4.html" },
-            { name: "角色5", image: "character5.jpg", url: "https://loverespect2024.github.io/loverespect2024.githhub.io-loverespsect/intro5.html" }
+            { name: "角色1", image: "character1.jpg", url: "character1.html" },
+            { name: "角色2", image: "character2.jpg", url: "character2.html" },
+            { name: "角色3", image: "character3.jpg", url: "character3.html" },
+            { name: "角色4", image: "character4.jpg", url: "character4.html" },
+            { name: "角色5", image: "character5.jpg", url: "character5.html" }
         ];
 
         const slots = [
@@ -60,9 +60,13 @@
             document.getElementById('slot3')
         ];
 
-        document.getElementById('spin-button').onclick = function () {
-            spinSlots();
-        };
+        document.getElementById('spin-button').onclick = spinSlots;
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                spinSlots();
+            }
+        });
 
         function spinSlots() {
             let spinCount = Math.floor(Math.random() * 6) + 10; // 10 to 15 times
