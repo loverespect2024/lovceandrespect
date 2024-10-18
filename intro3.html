@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>角色介紹</title>
+    <title>角色1 介紹</title>
     <style>
         body {
             display: flex;
@@ -20,17 +20,29 @@
             cursor: pointer;
             margin-top: 20px;
         }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
-    <h1>角色3 介紹</h1>
-    <p>這是角色3的介紹內容。</p>
+    <h1>霸王花介紹</h1>
+    <img src="https://ibb.co/6H05CZB" alt="霸王花">
+    <p>霸王花是代表欺凌者Bully的形象。</p>
     <button id="back-button">返回</button>
 
     <script>
         document.getElementById('back-button').onclick = function () {
             window.history.back();
         };
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                window.history.back();
+            }
+        });
     </script>
 </body>
 </html>
