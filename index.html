@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>你是哪一隻友伴童盟的精靈？</title>
+    <title>老虎機角色選擇</title>
     <style>
         body {
             display: flex;
@@ -11,37 +11,70 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
-            background-color: #f0f0f0;
+            background-color: #f3e5f5;
             margin: 0;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+        }
+        #banner {
+            width: 100%;
+            max-height: 150px;
+            overflow: hidden;
+        }
+        #banner img {
+            width: 100%;
+            height: auto;
+            display: block;
         }
         #slot-machine {
             display: flex;
             justify-content: center;
-            margin-bottom: 20px;
+            margin: 20px 0;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         .slot {
             width: 100px;
             height: 100px;
             margin: 0 10px;
-            background-color: white;
-            border: 2px solid #ccc;
+            background-color: #f8bbd0;
+            border: 2px solid #d32f2f;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .slot img {
+            max-width: 100%;
+            max-height: 100%;
         }
         #spin-button {
             padding: 10px 20px;
             font-size: 18px;
             cursor: pointer;
+            background-color: #d32f2f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        #spin-button:hover {
+            background-color: #9a0007;
         }
     </style>
 </head>
 <body>
+    <div id="banner">
+        <img src="banner.jpg" alt="歡迎橫幅">
+    </div>
     <div id="slot-machine">
-        <div class="slot" id="slot1">?</div>
-        <div class="slot" id="slot2">?</div>
-        <div class="slot" id="slot3">?</div>
+        <div class="slot" id="slot1"><img src="character1.jpg" alt="角色1"></div>
+        <div class="slot" id="slot2"><img src="character2.jpg" alt="角色2"></div>
+        <div class="slot" id="slot3"><img src="character3.jpg" alt="角色3"></div>
     </div>
     <button id="spin-button">開始</button>
 
@@ -75,7 +108,7 @@
             const interval = setInterval(() => {
                 slots.forEach(slot => {
                     let randomIndex = Math.floor(Math.random() * characters.length);
-                    slot.textContent = characters[randomIndex].name;
+                    slot.innerHTML = `<img src="${characters[randomIndex].image}" alt="${characters[randomIndex].name}">`;
                 });
 
                 currentSpin++;
@@ -89,7 +122,7 @@
         function showFinalResult() {
             let winningIndex = Math.floor(Math.random() * characters.length);
             slots.forEach(slot => {
-                slot.textContent = characters[winningIndex].name;
+                slot.innerHTML = `<img src="${characters[winningIndex].image}" alt="${characters[winningIndex].name}">`;
             });
 
             setTimeout(() => {
