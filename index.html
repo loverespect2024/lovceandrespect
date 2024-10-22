@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>你是哪一隻友伴童盟的精靈？</title>
+    <title>Upstander我做到！你是哪一隻友伴精靈？</title>
     <style>
         body {
             display: flex;
@@ -11,59 +11,71 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
-            background-color: ＃d7fffe;
+            background-color: #f0f0f0;
             margin: 0;
             font-family: 'Arial', sans-serif;
             color: #333;
         }
         #banner {
             width: 100%;
-            max-height: 100%;
+            height: 100%;
             overflow: hidden;
+            position: relative;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
         }
         #banner img {
             width: 100%;
             height: 100%;
-            display: block;
+            object-fit: cover;
+            object-position: center;
         }
         #slot-machine {
             display: flex;
             justify-content: center;
-            margin: 20px 0;
             background-color: #fff;
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
         .slot {
             width: 100px;
             height: 100px;
             margin: 0 10px;
-            background-color: #f8bbd0;
-            border: 2px solid #d32f2f;
-            border-radius: 8px;
+            background-color: #fff;
+            border: 3px solid #d32f2f;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s;
+        }
+        .slot:hover {
+            transform: scale(1.1);
         }
         .slot img {
             max-width: 100%;
             max-height: 100%;
+            border-radius: 8px;
         }
         #spin-button {
-            padding: 10px 20px;
+            margin-top: 20px;
+            padding: 12px 25px;
             font-size: 18px;
             cursor: pointer;
-            background-color: #d7fffe;
+            background-color: #ff5252;
             color: white;
             border: none;
-            border-radius: 5px;
-            transition: background-color 0.3s;
+            border-radius: 25px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, transform 0.3s;
         }
         #spin-button:hover {
-            background-color: #9a0007;
+            background-color: #ff1744;
+            transform: translateY(-2px);
         }
     </style>
 </head>
@@ -85,6 +97,7 @@
             { name: "霸王花", image: "https://i.ibb.co/XF2DGz0/2-3-0-1.png", url: "https://loverespect2024.github.io/loverespect2024.githhub.io-loverespsect/intro3.html" },
             { name: "檸默", image: "https://i.ibb.co/DzfF6Lh/reborn-1.png", url: "https://loverespect2024.github.io/loverespect2024.githhub.io-loverespsect/intro4.html" },
             { name: "友森師", image: "https://i.ibb.co/xHz88Xs/3-0-1.png", url: "https://loverespect2024.github.io/loverespect2024.githhub.io-loverespsect/intro5.html" }
+
         ];
 
         const slots = [
@@ -92,6 +105,9 @@
             document.getElementById('slot2'),
             document.getElementById('slot3')
         ];
+
+        const counts = Array(characters.length).fill(0);
+        let totalSpins = 0;
 
         document.getElementById('spin-button').onclick = spinSlots;
 
@@ -107,8 +123,8 @@
 
             const interval = setInterval(() => {
                 slots.forEach(slot => {
-                    let randomIndex = Math.floor(Math.random() * characters.length);
-                    slot.innerHTML = `<img src="${characters[randomIndex].image}" alt="${characters[randomIndex].name}">`;
+                    let index = getBalancedIndex();
+                    slot.innerHTML = `<img src="${characters[index].image}" alt="${characters[index].name}">`;
                 });
 
                 currentSpin++;
@@ -119,14 +135,26 @@
             }, 100);
         }
 
+        function getBalancedIndex() {
+            let minCount = Math.min(...counts);
+            let candidates = counts.map((count, index) => count === minCount ? index : null).filter(index => index !== null);
+            let chosenIndex = candidates[Math.floor(Math.random() * candidates.length)];
+            counts[chosenIndex]++;
+            totalSpins++;
+            if (totalSpins % characters.length === 0) {
+                counts.fill(0);
+            }
+            return chosenIndex;
+        }
+
         function showFinalResult() {
-            let winningIndex = Math.floor(Math.random() * characters.length);
+            let index = getBalancedIndex();
             slots.forEach(slot => {
-                slot.innerHTML = `<img src="${characters[winningIndex].image}" alt="${characters[winningIndex].name}">`;
+                slot.innerHTML = `<img src="${characters[index].image}" alt="${characters[index].name}">`;
             });
 
             setTimeout(() => {
-                window.location.href = characters[winningIndex].url;
+                window.location.href = characters[index].url;
             }, 2000);
         }
     </script>
