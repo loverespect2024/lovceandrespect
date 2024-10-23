@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upstander我做到！你是哪一隻友伴精靈？</title>
+    <title>老虎機角色選擇</title>
     <style>
         body {
             display: flex;
@@ -17,8 +17,8 @@
             color: #333;
         }
         #banner {
-            width: auto;
-            height: auto;
+            width: 100%;
+            height: 150px;
             overflow: hidden;
             position: relative;
             margin-bottom: 20px;
@@ -26,8 +26,8 @@
             border-radius: 10px;
         }
         #banner img {
-            width: auto;
-            height: 500px;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
             object-position: center;
         }
@@ -40,11 +40,11 @@
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
         .slot {
-            width: 500px;
-            height: 500px;
+            width: 100px;
+            height: 100px;
             margin: 0 10px;
             background-color: #fff;
-            border: 3px solid #84e9ff;
+            border: 3px solid #d32f2f;
             border-radius: 10px;
             display: flex;
             align-items: center;
@@ -62,11 +62,11 @@
             border-radius: 8px;
         }
         #spin-button {
-            margin-top: 50px;
+            margin-top: 20px;
             padding: 12px 25px;
             font-size: 18px;
             cursor: pointer;
-            background-color: 94f2ff;
+            background-color: #ff5252;
             color: white;
             border: none;
             border-radius: 25px;
@@ -81,7 +81,7 @@
 </head>
 <body>
     <div id="banner">
-        <img src="https://jcloverespect.bgca.org.hk/upload/page/1/banner/banner-desktop.png" alt="歡迎橫幅">
+        <img src="banner.jpg" alt="歡迎橫幅">
     </div>
     <div id="slot-machine">
         <div class="slot" id="slot1"><img src="https://i.ibb.co/ySJ12cv/3-0-1.png" alt="???"></div>
@@ -90,9 +90,12 @@
     </div>
     <button id="spin-button">開始</button>
 
+    <audio id="spin-sound" src="spin.mp3" preload="auto"></audio>
+    <audio id="result-sound" src="result.mp3" preload="auto"></audio>
+
     <script>
         const characters = [
-            { name: "伴伴", image: "https://i.ibb.co/ySJ12cv/3-0-1.png", url: "https://loverespect2024.github.io/loverespect2024.githhub.io-loverespsect/intro1.html" },
+{ name: "伴伴", image: "https://i.ibb.co/ySJ12cv/3-0-1.png", url: "https://loverespect2024.github.io/loverespect2024.githhub.io-loverespsect/intro1.html" },
             { name: "花生仔", image: "https://i.ibb.co/QbHP6zy/2-0-1.png", url: "https://loverespect2024.github.io/loverespect2024.githhub.io-loverespsect/intro2.html" },
             { name: "霸王花", image: "https://i.ibb.co/XF2DGz0/2-3-0-1.png", url: "https://loverespect2024.github.io/loverespect2024.githhub.io-loverespsect/intro3.html" },
             { name: "檸默", image: "https://i.ibb.co/DzfF6Lh/reborn-1.png", url: "https://loverespect2024.github.io/loverespect2024.githhub.io-loverespsect/intro4.html" },
@@ -107,7 +110,11 @@
         ];
 
         const counts = Array(characters.length).fill(0);
-        let totalSpins = 0;
+        const maxPerCharacter = 30;
+        let totalAssigned = 0;
+
+        const spinSound = document.getElementById('spin-sound');
+        const resultSound = document.getElementById('result-sound');
 
         document.getElementById('spin-button').onclick = spinSlots;
 
@@ -118,6 +125,11 @@
         });
 
         function spinSlots() {
+            if (totalAssigned >= 150) {
+                alert("所有角色已均勻分配完畢！");
+                return;
+            }
+            spinSound.play();
             let spinCount = Math.floor(Math.random() * 6) + 10; // 10 to 15 times
             let currentSpin = 0;
 
@@ -130,20 +142,18 @@
                 currentSpin++;
                 if (currentSpin >= spinCount) {
                     clearInterval(interval);
+                    spinSound.pause();
+                    spinSound.currentTime = 0;
                     showFinalResult();
                 }
             }, 100);
         }
 
-      const counts = Array(characters.length).fill(0);
-const maxPerCharacter = 30;
-
-function getBalancedIndex() {
-    let candidates = counts.map((count, index) => count < maxPerCharacter ? index : null).filter(index => index !== null);
-    let chosenIndex = candidates[Math.floor(Math.random() * candidates.length)];
-    counts[chosenIndex]++;
-    return chosenIndex;
-            }
+        function getBalancedIndex() {
+            let candidates = counts.map((count, index) => count < maxPerCharacter ? index : null).filter(index => index !== null);
+            let chosenIndex = candidates[Math.floor(Math.random() * candidates.length)];
+            counts[chosenIndex]++;
+            totalAssigned++;
             return chosenIndex;
         }
 
@@ -152,6 +162,8 @@ function getBalancedIndex() {
             slots.forEach(slot => {
                 slot.innerHTML = `<img src="${characters[index].image}" alt="${characters[index].name}">`;
             });
+
+            resultSound.play();
 
             setTimeout(() => {
                 window.location.href = characters[index].url;
