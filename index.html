@@ -26,8 +26,8 @@
             border-radius: 10px;
         }
         #banner img {
-            width: 50%;
-            height: 50%;
+            width: 500px;
+            height: auto;
             object-fit: cover;
             object-position: center;
         }
@@ -135,14 +135,14 @@
             }, 100);
         }
 
-        function getBalancedIndex() {
-            let minCount = Math.min(...counts);
-            let candidates = counts.map((count, index) => count === minCount ? index : null).filter(index => index !== null);
-            let chosenIndex = candidates[Math.floor(Math.random() * candidates.length)];
-            counts[chosenIndex]++;
-            totalSpins++;
-            if (totalSpins % characters.length === 0) {
-                counts.fill(0);
+      const counts = Array(characters.length).fill(0);
+const maxPerCharacter = 30;
+
+function getBalancedIndex() {
+    let candidates = counts.map((count, index) => count < maxPerCharacter ? index : null).filter(index => index !== null);
+    let chosenIndex = candidates[Math.floor(Math.random() * candidates.length)];
+    counts[chosenIndex]++;
+    return chosenIndex;
             }
             return chosenIndex;
         }
